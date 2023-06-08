@@ -9,20 +9,21 @@ import 'package:volume_pekerjaan/widget/TextJumlah.dart';
 import 'package:volume_pekerjaan/widget/TextSatuanHarga.dart';
 import 'package:intl/intl.dart';
 
-class WidgetFormM2 extends StatefulWidget {
+class WidgetFormM3 extends StatefulWidget {
   final User? users;
-  const WidgetFormM2({Key? key, required this.users}) : super(key: key);
+  const WidgetFormM3({Key? key, required this.users}) : super(key: key);
 
   @override
-  State<WidgetFormM2> createState() => _WidgetFormState();
+  State<WidgetFormM3> createState() => _WidgetFormState();
 }
 
-class _WidgetFormState extends State<WidgetFormM2> {
+class _WidgetFormState extends State<WidgetFormM3> {
   final fromkey = GlobalKey<FormState>();
 
   final panjang = TextEditingController();
 
   final lebar = TextEditingController();
+  final tinggi = TextEditingController();
 
   late TextEditingController Satuan;
 
@@ -38,7 +39,7 @@ class _WidgetFormState extends State<WidgetFormM2> {
   }
 
   @override
-  void didUpdateWidget(covariant WidgetFormM2 oldWidget) {
+  void didUpdateWidget(covariant WidgetFormM3 oldWidget) {
     super.didUpdateWidget(oldWidget);
 
     initUser();
@@ -91,6 +92,13 @@ class _WidgetFormState extends State<WidgetFormM2> {
               SizedBox(
                 height: 20,
               ),
+              MyTxtFile(
+                controler: tinggi,
+                hintTex: "Tinggi",
+              ),
+              SizedBox(
+                height: 20,
+              ),
               MyTextSatuanHarga(
                 controler: Satuan,
               ),
@@ -128,6 +136,7 @@ class _WidgetFormState extends State<WidgetFormM2> {
                     if (fromkey.currentState!.validate()) {
                       totalHarga = int.parse(panjang.text) *
                           int.parse(lebar.text) *
+                          int.parse(tinggi.text) *
                           int.parse(Satuan.text);
 
                       setState(() {

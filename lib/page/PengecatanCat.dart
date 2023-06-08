@@ -5,7 +5,9 @@ import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:volume_pekerjaan/api/user.dart';
 import 'package:volume_pekerjaan/api/user_sheets_api.dart';
+import 'package:volume_pekerjaan/components/widgetForm_M1.dart';
 import 'package:volume_pekerjaan/components/widgetForm_M2.dart';
+import 'package:volume_pekerjaan/components/widgetForm_M3.dart';
 
 class MyPengecataCat extends StatefulWidget {
   MyPengecataCat({Key? key}) : super(key: key);
@@ -34,10 +36,14 @@ class _MyPengecataCatState extends State<MyPengecataCat> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Text('Pengecatan Cat'),
+        backgroundColor: Colors.transparent,
+      ),
       backgroundColor: Colors.grey[300],
       body: SafeArea(
         child: SingleChildScrollView(
-            child: WidgetFormM2(
+            child: WidgetFormM3(
           users: user,
         )),
       ),

@@ -9,20 +9,18 @@ import 'package:volume_pekerjaan/widget/TextJumlah.dart';
 import 'package:volume_pekerjaan/widget/TextSatuanHarga.dart';
 import 'package:intl/intl.dart';
 
-class WidgetFormM2 extends StatefulWidget {
+class WidgetFormM1 extends StatefulWidget {
   final User? users;
-  const WidgetFormM2({Key? key, required this.users}) : super(key: key);
+  const WidgetFormM1({Key? key, required this.users}) : super(key: key);
 
   @override
-  State<WidgetFormM2> createState() => _WidgetFormState();
+  State<WidgetFormM1> createState() => _WidgetFormState();
 }
 
-class _WidgetFormState extends State<WidgetFormM2> {
+class _WidgetFormState extends State<WidgetFormM1> {
   final fromkey = GlobalKey<FormState>();
 
   final panjang = TextEditingController();
-
-  final lebar = TextEditingController();
 
   late TextEditingController Satuan;
 
@@ -38,7 +36,7 @@ class _WidgetFormState extends State<WidgetFormM2> {
   }
 
   @override
-  void didUpdateWidget(covariant WidgetFormM2 oldWidget) {
+  void didUpdateWidget(covariant WidgetFormM1 oldWidget) {
     super.didUpdateWidget(oldWidget);
 
     initUser();
@@ -84,13 +82,6 @@ class _WidgetFormState extends State<WidgetFormM2> {
               SizedBox(
                 height: 20,
               ),
-              MyTxtFile(
-                controler: lebar,
-                hintTex: "Lebar",
-              ),
-              SizedBox(
-                height: 20,
-              ),
               MyTextSatuanHarga(
                 controler: Satuan,
               ),
@@ -126,9 +117,8 @@ class _WidgetFormState extends State<WidgetFormM2> {
                   text: "Nilai Pekerjaan",
                   onTap: () {
                     if (fromkey.currentState!.validate()) {
-                      totalHarga = int.parse(panjang.text) *
-                          int.parse(lebar.text) *
-                          int.parse(Satuan.text);
+                      totalHarga =
+                          int.parse(panjang.text) * int.parse(Satuan.text);
 
                       setState(() {
                         totalHarga;

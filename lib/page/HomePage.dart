@@ -10,7 +10,11 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Menghitung Volume Pekerjaan")),
+      appBar: AppBar(
+        title: Text("Menghitung Volume Pekerjaan"),
+        centerTitle: true,
+        backgroundColor: Colors.transparent,
+      ),
       body: Container(
           child: Center(
         child: Column(

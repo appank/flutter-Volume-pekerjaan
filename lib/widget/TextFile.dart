@@ -25,7 +25,7 @@ class MyTxtFile extends StatelessWidget {
             borderSide: BorderSide(color: Colors.grey.shade400)),
         fillColor: Colors.grey.shade200,
         filled: true,
-        hintText: hintTex,
+        labelText: hintTex,
         hintStyle: TextStyle(color: Colors.grey[500]),
       ),
       validator: (value) {
