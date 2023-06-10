@@ -5,7 +5,6 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:volume_pekerjaan/api/user.dart';
 import 'package:volume_pekerjaan/widget/Button.dart';
 import 'package:volume_pekerjaan/widget/TextFile.dart';
-import 'package:volume_pekerjaan/widget/TextJumlah.dart';
 import 'package:volume_pekerjaan/widget/TextSatuanHarga.dart';
 import 'package:intl/intl.dart';
 

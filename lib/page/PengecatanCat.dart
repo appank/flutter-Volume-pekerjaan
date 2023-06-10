@@ -17,6 +17,7 @@ class MyPengecataCat extends StatefulWidget {
 
 class _MyPengecataCatState extends State<MyPengecataCat> {
   User? user;
+  String title = 'Pengecatan Cat';
 
   @override
   void initState() {
@@ -38,12 +39,14 @@ class _MyPengecataCatState extends State<MyPengecataCat> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Pengecatan Cat'),
+        centerTitle: true,
         backgroundColor: Colors.transparent,
       ),
       backgroundColor: Colors.grey[300],
       body: SafeArea(
         child: SingleChildScrollView(
             child: WidgetFormM3(
+          title: title,
           users: user,
         )),
       ),

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:volume_pekerjaan/api/user_sheets_api.dart';
+import 'package:volume_pekerjaan/page/Home.dart';
+import 'package:volume_pekerjaan/page/HomeList.dart';
 import 'package:volume_pekerjaan/page/HomePage.dart';
 
 void main() async {
@@ -13,6 +15,6 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(debugShowCheckedModeBanner: false, home: HomePage());
+    return MaterialApp(debugShowCheckedModeBanner: false, home: MyHome());
   }
 }

@@ -3,10 +3,10 @@ import 'package:flutter/services.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 
-class MyJumlah extends StatelessWidget {
+class MyTextTitle extends StatelessWidget {
   final controler;
   final String hintTex;
-  const MyJumlah({
+  const MyTextTitle({
     Key? key,
     required this.controler,
     required this.hintTex,
@@ -16,7 +16,6 @@ class MyJumlah extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextFormField(
       controller: controler,
-      inputFormatters: [FilteringTextInputFormatter.digitsOnly],
       decoration: InputDecoration(
         enabledBorder: const OutlineInputBorder(
           borderSide: BorderSide(color: Colors.white),
@@ -25,9 +24,6 @@ class MyJumlah extends StatelessWidget {
             borderSide: BorderSide(color: Colors.grey.shade400)),
         fillColor: Color.fromRGBO(238, 238, 238, 1),
         filled: true,
-        enabled: false,
-
-        // prefixIcon: Icon(Icons.monetization_on),
         hintText: hintTex,
         hintStyle: TextStyle(color: Colors.black),
       ),
