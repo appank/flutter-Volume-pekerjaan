@@ -4,6 +4,7 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:volume_pekerjaan/page/HomeList.dart';
 import 'package:volume_pekerjaan/page/HomePage.dart';
+import 'package:volume_pekerjaan/page/HomeSheet.dart';
 import 'package:volume_pekerjaan/page/_page.dart';
 
 class MyHome extends StatefulWidget {
@@ -14,7 +15,13 @@ class MyHome extends StatefulWidget {
 }
 
 class _MyHomeState extends State<MyHome> {
-  List Screens = [HomePage(), MyHomeList(), MyPage(), MyPage(), MyPage()];
+  List Screens = [
+    HomePage(),
+    MyHomeSheet(),
+    MyPage(),
+    MyPage(),
+    HomePage(),
+  ];
   int _page = 0;
   GlobalKey<CurvedNavigationBarState> _bottomNavigationKey = GlobalKey();
   @override

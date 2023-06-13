@@ -1,9 +1,10 @@
 import 'dart:convert';
 
 import 'package:gsheets/gsheets.dart';
+import 'package:volume_pekerjaan/api/add.dart';
 import 'package:volume_pekerjaan/api/user.dart';
 
-class UserSheetsApi {
+class AddSheetsApi {
   static const _credentials = r'''
 {
   "type": "service_account",
@@ -28,13 +29,21 @@ class UserSheetsApi {
   static Future init() async {
     try {
       final spreadsheets = await _gsheets.spreadsheet(_spreadsheetId);
-      _userSheet = await _getWorkSheet(spreadsheets, title: 'Satuan');
+      _userSheet =
+          await _getWorkSheet(spreadsheets, title: 'Output_Volume_Pekerjaan');
 
-      final firstRow = UserFields.getFields();
+      final firstRow = AddFields.getFields();
       _userSheet!.values.insertRow(1, firstRow);
     } catch (e) {
       print('Init Erorr: $e');
     }
+  }
+
+  static Future<int> getRowCount() async {
+    if (_userSheet == null) return 0;
+
+    final lastRow = await _userSheet!.values.lastRow();
+    return lastRow == null ? 0 : int.tryParse(lastRow.first) ?? 0;
   }
 
   static Future<Worksheet> _getWorkSheet(
@@ -48,14 +57,23 @@ class UserSheetsApi {
     }
   }
 
+  static Future<List<AddUser>> getAll() async {
+    if (_userSheet == null)
+      <AddUser>[]; // Tujuanya mengambil semua data dari Google Sheet dan menampilkannya
+
+    final users = await _userSheet!.values.map.allRows();
+    return users == null ? <AddUser>[] : users.map(AddUser.fromJson).toList();
+  }
+
   static Future insert(List<Map<String, dynamic>> rowList) async {
     if (_userSheet == null) return;
     _userSheet!.values.map.appendRows(rowList);
   }
 
-  static Future<User?> getById(int id) async {
-    if (_userSheet == null) return null;
-    final json = await _userSheet!.values.map.rowByKey(id, fromColumn: 1);
-    return json == null ? null : User.fromJson(json);
+  static Future<bool> deleteById(int id) async {
+    if (_userSheet == null) return false;
+    final index = await _userSheet!.values.rowIndexOf(id);
+    if (index == -1) return false;
+    return _userSheet!.deleteRow(index);
   }
 }

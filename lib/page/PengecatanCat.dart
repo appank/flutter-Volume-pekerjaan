@@ -3,6 +3,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:volume_pekerjaan/api/add.dart';
+import 'package:volume_pekerjaan/api/add_sheets_api.dart';
 import 'package:volume_pekerjaan/api/user.dart';
 import 'package:volume_pekerjaan/api/user_sheets_api.dart';
 import 'package:volume_pekerjaan/components/widgetForm_M1.dart';
@@ -17,7 +19,8 @@ class MyPengecataCat extends StatefulWidget {
 
 class _MyPengecataCatState extends State<MyPengecataCat> {
   User? user;
-  String title = 'Pengecatan Cat';
+  AddUser? adduser;
+  String title = 'Pengecatan';
 
   @override
   void initState() {
@@ -26,6 +29,7 @@ class _MyPengecataCatState extends State<MyPengecataCat> {
     getUsers();
   }
 
+  //Dapatkan Data dari Colum Google Sheet
   Future getUsers() async {
     final users = await UserSheetsApi.getById(1);
 
@@ -38,7 +42,7 @@ class _MyPengecataCatState extends State<MyPengecataCat> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Pengecatan Cat'),
+        title: Text('Pengecatan'),
         centerTitle: true,
         backgroundColor: Colors.transparent,
       ),
@@ -48,6 +52,12 @@ class _MyPengecataCatState extends State<MyPengecataCat> {
             child: WidgetFormM3(
           title: title,
           users: user,
+          addUser: adduser,
+          onSavedUser: (add) async {
+            final id = await AddSheetsApi.getRowCount() + 1;
+            final newUser = add.Copy(Id: id);
+            await AddSheetsApi.insert([newUser.toJson()]);
+          },
         )),
       ),
     );

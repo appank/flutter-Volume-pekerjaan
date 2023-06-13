@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:volume_pekerjaan/api/add.dart';
 import 'package:volume_pekerjaan/api/user.dart';
 import 'package:volume_pekerjaan/sql/db_halper.dart';
 import 'package:volume_pekerjaan/widget/Button.dart';
@@ -12,8 +13,15 @@ import 'package:volume_pekerjaan/widget/TextTitle.dart';
 
 class WidgetFormM3 extends StatefulWidget {
   final User? users;
+  final AddUser? addUser;
+  final ValueChanged<AddUser> onSavedUser;
   String? title;
-  WidgetFormM3({Key? key, required this.users, required this.title})
+  WidgetFormM3(
+      {Key? key,
+      required this.users,
+      required this.title,
+      required this.addUser,
+      required this.onSavedUser})
       : super(key: key);
 
   @override
@@ -45,8 +53,6 @@ class _WidgetFormState extends State<WidgetFormM3> {
   late TextEditingController Title;
   var totalHarga = 0;
 
-  // final Jumlah = TextEditingController();
-  // final TextLa = TextEditingController(text: 'Bacot');
   @override
   void initState() {
     // super.initState();
@@ -56,7 +62,7 @@ class _WidgetFormState extends State<WidgetFormM3> {
     _refreshData();
   }
 
-  //Add Data
+  //Tambah Data SQLite
   Future<void> _addData() async {
     await SQLHaleper.createData(Title.text, panjang.text, lebar.text,
         tinggi.text, Satuan.text, totalHarga);
@@ -72,7 +78,7 @@ class _WidgetFormState extends State<WidgetFormM3> {
     initUser();
   }
 
-  //Fungsi Button Save
+  //Fungsi Button Save SQLite
   void SaveData(int? id) async {
     if (id != null) {
       final existingData =
@@ -99,12 +105,23 @@ class _WidgetFormState extends State<WidgetFormM3> {
   }
 
   void initUser() {
+    //Dapatkan Data Dari Google Sheet
     final satuan = widget.users == null ? '' : widget.users!.satuan;
     var title = widget.title;
 
+    //Tambahkan Data ke Google Sheet
+    final dbTittle = widget.addUser == null ? '' : widget.addUser!.Title;
+    final dbSatuan = widget.addUser == null ? '' : widget.addUser!.Satuan;
+    final dbTotalHarga =
+        widget.addUser == null ? '' : widget.addUser!.TotalHarga;
+
     setState(() {
-      Satuan = TextEditingController(text: satuan);
-      Title = TextEditingController(text: title);
+      Satuan = TextEditingController(
+          text: satuan == '' ? dbSatuan.toString() : satuan);
+
+      Title = TextEditingController(
+          text: title == '' ? dbTittle.toString() : title);
+      totalHarga.toString();
     });
   }
 
@@ -200,6 +217,15 @@ class _WidgetFormState extends State<WidgetFormM3> {
                   text: 'Save',
                   onTap: () {
                     SaveData(null);
+                    final Id =
+                        widget.addUser == null ? null : widget.addUser!.Id;
+                    final ad = AddUser(
+                        Id: Id,
+                        Title: Title.text,
+                        Satuan: Satuan.text,
+                        TotalHarga: totalHarga.toString());
+
+                    widget.onSavedUser(ad);
                   }),
               SizedBox(
                 height: 25,
