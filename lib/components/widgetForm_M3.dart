@@ -32,6 +32,11 @@ class _WidgetFormState extends State<WidgetFormM3> {
       _allData = data;
       _isLoading = false;
     });
+
+    // Print log semua data
+    for (var item in _allData) {
+      print("Data tersimpan: $item");
+    }
   }
 
   final fromkey = GlobalKey<FormState>();
