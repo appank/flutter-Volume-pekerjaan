@@ -16,7 +16,10 @@ class MyTxtFile extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextFormField(
       controller: controler,
-      inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+      keyboardType: TextInputType.number,
+      inputFormatters: <TextInputFormatter>[
+        FilteringTextInputFormatter.digitsOnly
+      ],
       decoration: InputDecoration(
         enabledBorder: const OutlineInputBorder(
           borderSide: BorderSide(color: Colors.white),

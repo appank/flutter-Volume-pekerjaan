@@ -12,8 +12,8 @@ class AddFields {
 class AddUser {
   final int? Id;
   final String Title;
-  final String Satuan;
-  final String TotalHarga;
+  final int Satuan;
+  final int TotalHarga;
 
   const AddUser({
     this.Id,
@@ -21,11 +21,13 @@ class AddUser {
     required this.Satuan,
     required this.TotalHarga,
   });
+
+  set isCheck(bool isCheck) {}
   AddUser Copy({
     int? Id,
     String? Title,
-    String? Satuan,
-    String? TotalHarga,
+    int? Satuan,
+    int? TotalHarga,
   }) =>
       AddUser(
         Id: Id ?? this.Id,
@@ -36,8 +38,8 @@ class AddUser {
   static AddUser fromJson(Map<String, dynamic> json) => AddUser(
         Id: jsonDecode(json[AddFields.Id]),
         Title: json[AddFields.Title],
-        Satuan: json[AddFields.Satuan],
-        TotalHarga: json[AddFields.TotalHarga],
+        Satuan: jsonDecode(json[AddFields.Satuan]),
+        TotalHarga: jsonDecode(json[AddFields.TotalHarga]),
       );
   Map<String, dynamic> toJson() => {
         AddFields.Id: Id,

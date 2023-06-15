@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:gsheets/gsheets.dart';
 import 'package:volume_pekerjaan/api/add.dart';
 import 'package:volume_pekerjaan/api/user.dart';
+import 'package:googleapis/sheets/v4.dart' as sheets;
 
 class AddSheetsApi {
   static const _credentials = r'''
@@ -58,8 +59,10 @@ class AddSheetsApi {
   }
 
   static Future<List<AddUser>> getAll() async {
-    if (_userSheet == null)
-      <AddUser>[]; // Tujuanya mengambil semua data dari Google Sheet dan menampilkannya
+    if (_userSheet == null) {
+      return <
+          AddUser>[]; // Tujuannya mengambil semua data dari Google Sheet dan menampilkan
+    }
 
     final users = await _userSheet!.values.map.allRows();
     return users == null ? <AddUser>[] : users.map(AddUser.fromJson).toList();
@@ -68,6 +71,12 @@ class AddSheetsApi {
   static Future insert(List<Map<String, dynamic>> rowList) async {
     if (_userSheet == null) return;
     _userSheet!.values.map.appendRows(rowList);
+  }
+
+  static Future<User?> getById(int id) async {
+    if (_userSheet == null) return null;
+    final json = await _userSheet!.values.map.rowByKey(id, fromColumn: 1);
+    return json == null ? null : User.fromJson(json);
   }
 
   static Future<bool> deleteById(int id) async {

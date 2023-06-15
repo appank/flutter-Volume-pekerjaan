@@ -16,20 +16,35 @@ class _MyHomeSheetState extends State<MyHomeSheet> {
   List<AddUser> _allData = [];
   bool _isLoading = true;
 
+  List<int> selectedIds = [];
   void _refreshData() async {
     await AddSheetsApi.init();
     List<AddUser> data = await AddSheetsApi.getAll();
 
-    setState(() {
-      _allData = data;
-      _isLoading = false;
-    });
+    if (mounted) {
+      setState(() {
+        _allData = data;
+        _isLoading = false;
+      });
+    }
   }
 
-  void _deleteData() async {
-    final user = _allData.length;
-    await AddSheetsApi.deleteById(user);
-    _refreshData();
+  double _calculateTotal(List<AddUser> data) {
+    double sum = 0;
+    selectedIds.forEach((id) {
+      sum += data.firstWhere((item) => item.Id == id).TotalHarga;
+    });
+    return sum;
+  }
+
+  void _toggleCheckbox(bool? value, int id) {
+    setState(() {
+      if (value!) {
+        selectedIds.add(id);
+      } else {
+        selectedIds.remove(id);
+      }
+    });
   }
 
   @override
@@ -66,7 +81,7 @@ class _MyHomeSheetState extends State<MyHomeSheet> {
                   ),
                   Expanded(
                     child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                      padding: const EdgeInsets.all(8.0),
                       child: ListView.builder(
                         itemCount: _allData.length,
                         itemBuilder: (context, index) => Card(
@@ -89,23 +104,40 @@ class _MyHomeSheetState extends State<MyHomeSheet> {
                             subtitle: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Padding(
-                                  padding: EdgeInsets.symmetric(vertical: 5),
-                                  child: Text(
-                                    'Nilai Satuan : ${_allData[index].Satuan}',
-                                  ),
-                                ),
-                                Text(
-                                  'Total Harga : ${_allData[index].TotalHarga}',
-                                ),
+                                Text('Nilai Satuan : ${NumberFormat.currency(
+                                  locale: 'id',
+                                  symbol: 'Rp. ',
+                                  decimalDigits: 0,
+                                ).format(_allData[index].Satuan)}'),
+                                Text('Harga : ${NumberFormat.currency(
+                                  locale: 'id',
+                                  symbol: 'Rp. ',
+                                  decimalDigits: 0,
+                                ).format(_allData[index].TotalHarga)}'),
                               ],
                             ),
                             trailing: Row(
                               mainAxisSize: MainAxisSize.min,
                               children: [
+                                Checkbox(
+                                  onChanged: (bool? value) => _toggleCheckbox(
+                                      value, _allData[index].Id!),
+                                  value:
+                                      selectedIds.contains(_allData[index].Id),
+                                  checkColor: Colors.white,
+                                  activeColor: Colors.green,
+                                ),
                                 IconButton(
-                                    onPressed: () {
-                                      _deleteData();
+                                    onPressed: () async {
+                                      int? idToDelete = _allData[index].Id;
+
+                                      try {
+                                        await AddSheetsApi.deleteById(
+                                            idToDelete!);
+                                      } catch (e) {
+                                        print('Error deleting data: $e');
+                                      }
+                                      _refreshData();
                                     },
                                     icon: Icon(
                                       Icons.delete,
@@ -115,6 +147,44 @@ class _MyHomeSheetState extends State<MyHomeSheet> {
                             ),
                           ),
                         ),
+                      ),
+                    ),
+                  ),
+                  Container(
+                    width: double.infinity,
+                    height: 60, // Fixed height for container
+                    color: Colors.grey, // Change this to desired color
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 25.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: [
+                          SizedBox(
+                            height: 10,
+                          ),
+                          FutureBuilder<void>(
+                            builder: (context, snapshot) {
+                              double sum = 0.0;
+                              if (_allData.isNotEmpty) {
+                                _allData.forEach((data) {
+                                  sum += data.TotalHarga;
+                                });
+                                _refreshData();
+                              }
+                              return Text(
+                                'Total Harga : ${NumberFormat.currency(
+                                  locale: 'id',
+                                  symbol: 'Rp. ',
+                                  decimalDigits: 0,
+                                ).format(_calculateTotal(_allData))}',
+                                style: TextStyle(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              );
+                            },
+                          ),
+                        ],
                       ),
                     ),
                   ),

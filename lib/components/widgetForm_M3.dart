@@ -33,14 +33,6 @@ class _WidgetFormState extends State<WidgetFormM3> {
   bool _isLoading = true;
   String dbtile = "bacot";
   //Get Data From DataBase
-  void _refreshData() async {
-    final data = await SQLHaleper.getAllData();
-
-    setState(() {
-      _allData = data;
-      _isLoading = false;
-    });
-  }
 
   final fromkey = GlobalKey<FormState>();
 
@@ -59,16 +51,6 @@ class _WidgetFormState extends State<WidgetFormM3> {
 
     initUser();
     //Refresh Data
-    _refreshData();
-  }
-
-  //Tambah Data SQLite
-  Future<void> _addData() async {
-    await SQLHaleper.createData(Title.text, panjang.text, lebar.text,
-        tinggi.text, Satuan.text, totalHarga);
-    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-        content: Text("Add Data"), backgroundColor: Colors.redAccent));
-    _refreshData();
   }
 
   @override
@@ -76,32 +58,6 @@ class _WidgetFormState extends State<WidgetFormM3> {
     super.didUpdateWidget(oldWidget);
 
     initUser();
-  }
-
-  //Fungsi Button Save SQLite
-  void SaveData(int? id) async {
-    if (id != null) {
-      final existingData =
-          _allData.firstWhere((element) => element['id'] == id);
-      Title.text = existingData['db_title'];
-      panjang.text = existingData['db_panjang'];
-      lebar.text = existingData['db_lebar'];
-      tinggi.text = existingData['db_tinggi'];
-      Satuan.text = existingData['db_satuan'];
-      totalHarga = existingData['db_jumlah'];
-    }
-
-    await _addData();
-    Title.text = "";
-    panjang.text = "";
-    lebar.text = "";
-    tinggi.text = "";
-    Satuan.text = "";
-    totalHarga = totalHarga;
-
-    //Hidden button sheet
-    Navigator.of(context).pop();
-    print("Data Added");
   }
 
   void initUser() {
@@ -135,7 +91,7 @@ class _WidgetFormState extends State<WidgetFormM3> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const SizedBox(height: 50),
+              const SizedBox(height: 30),
               MyTextTitle(
                 controler: Title,
                 hintTex: "Title",
@@ -216,16 +172,22 @@ class _WidgetFormState extends State<WidgetFormM3> {
               MyButton(
                   text: 'Save',
                   onTap: () {
-                    SaveData(null);
                     final Id =
                         widget.addUser == null ? null : widget.addUser!.Id;
+                    int _Satuan = int.parse(Satuan.text);
                     final ad = AddUser(
                         Id: Id,
                         Title: Title.text,
-                        Satuan: Satuan.text,
-                        TotalHarga: totalHarga.toString());
+                        Satuan: _Satuan,
+                        TotalHarga: totalHarga); //tostring()
 
                     widget.onSavedUser(ad);
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text('Data berhasil disimpan'),
+                        duration: Duration(seconds: 2),
+                      ),
+                    );
                   }),
               SizedBox(
                 height: 25,
