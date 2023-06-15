@@ -1,16 +1,9 @@
-# volume_pekerjaan
+# Menghitung Volume Pekerjaan (RAB)
 
-A new Flutter project.
+Aplikasi ini dapat digunakan untuk menghitung Volume Pekerjaan, Mendapatkan nilai Satuan dari Google Sheets, serta dapat juga diganankan untuk menyimpan data ke Google Sheets Secara RealTime
 
-## Getting Started
+![Google Sheet Realtime Data](https://github.com/appank/flutter-Volume-pekerjaan/assets/102719362/b8b01809-2570-441b-90ea-3ca89c9eb985)
 
-This project is a starting point for a Flutter application.
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Reference
+Vist Link : https://www.youtube.com/watch?v=3UJ6RnWTGIY&t=1281s
