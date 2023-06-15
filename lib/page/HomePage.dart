@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:volume_pekerjaan/page/HomeList.dart';
 import 'package:volume_pekerjaan/page/PengecatanCat.dart';
 import 'package:volume_pekerjaan/widget/Button.dart';
 
@@ -10,7 +11,12 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Menghitung Volume Pekerjaan")),
+      backgroundColor: Colors.grey[300],
+      appBar: AppBar(
+        title: Text("Menghitung Volume Pekerjaan"),
+        centerTitle: true,
+        backgroundColor: Colors.transparent,
+      ),
       body: Container(
           child: Center(
         child: Column(
@@ -26,7 +32,7 @@ class HomePage extends StatelessWidget {
                 },
                 text: "Pengecatan Cat"),
             SizedBox(
-              height: 20,
+              height: 10,
             ),
             MyButton(
                 onTap: () {
@@ -36,7 +42,7 @@ class HomePage extends StatelessWidget {
                 },
                 text: "Pengecatan Cat"),
             SizedBox(
-              height: 20,
+              height: 10,
             ),
             MyButton(
                 onTap: () {
@@ -46,7 +52,7 @@ class HomePage extends StatelessWidget {
                 },
                 text: "Pengecatan Cat"),
             SizedBox(
-              height: 20,
+              height: 10,
             ),
             MyButton(
                 onTap: () {
